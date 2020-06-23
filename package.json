@@ -1,0 +1,15 @@
+{
+  "name": "battleship-sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "shipFactory.js",
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watch *.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.0.1"
+  }
+}
