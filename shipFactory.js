@@ -2,18 +2,22 @@ const shipFactory = (length) => {
 
     let ship = [];
 
+    //is it important that the ship knows where it is?
 
-    //position of ship should be passed from the board object upon creation....
-    //represented by an array of coordinate arrays?
-
-    let position = [];
+    let placement = [];
 
     for (i=0; i < length; i++) {
         ship.push('safe');
     }
 
-    const hit = (position) => {
-        ship[position] = 'hit';
+    const hit = (coordinates) => {
+        for (i=0; i<placement.length; i++) { //search ship placement for these coordinates
+            if (placement[i][0] === coordinates[0] && placement[i][1] === coordinates[1]) {
+                ship[i] = 'hit'
+                // index = i; //get the index of that coordinate in placement
+            }
+        }
+        // ship[index] = 'hit'; // mark that index in ship array as 'hit'
     }
 
     const isSunk = () => {
@@ -30,7 +34,7 @@ const shipFactory = (length) => {
         return sunk;
     }
 
-    return { ship, hit, isSunk, position };
+    return { placement, ship, hit, isSunk };
 }
 
 module.exports = shipFactory;
