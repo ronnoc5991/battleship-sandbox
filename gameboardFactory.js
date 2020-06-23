@@ -6,10 +6,12 @@ const gameboardFactory = () => {
     const ships = [];
 
     const allSunk = () => {
-        let sinkCount;
+        let sinkCount = 0;
         for (i=0; i<ships.length; i++) { //loop through ships
-            if (ships[i].isSunk()) { // THIS IS THE SOURCE OF THE PROBLEM... THIS IS NOT EVALUATION CORRECTLY
-                
+            let dead = ships[i].isSunk(); //THIS IS WHERE THE PROBLEMS ARE... THIS IS NOT EVALUATING CORRECTLY
+            if (dead == true) {
+                return 'Hello';
+                sinkCount++;
             }
         }
 
