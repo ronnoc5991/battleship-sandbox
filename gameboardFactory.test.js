@@ -105,25 +105,25 @@ it('placeShip function places 2 ships with the correct index Numbers on board', 
 
 it('Catches moves that do not fit on board (vertical)', () => {
     let testBoard = gameboardFactory();
-    expect(testBoard.placeShip([9, 9], 'vertical', 5)).toBe('Not valid move');
+    expect(testBoard.placeShip([9, 9], 'vertical', 5)).toBe('Not valid placement');
 })
 
 it('Catches moves that do not fit on board (horizontal)', () => {
     let testBoard = gameboardFactory();
-    expect(testBoard.placeShip([9, 9], 'horizontal', 5)).toBe('Not valid move');
+    expect(testBoard.placeShip([9, 9], 'horizontal', 5)).toBe('Not valid placement');
 })
 
 it('Catches invalid move when ships are duplicates', () => {
     let testBoard = gameboardFactory();
     testBoard.placeShip([0, 0], 'horizontal', 5);
-    expect(testBoard.placeShip([0, 0], 'horizontal', 5)).toBe('Not valid move');
+    expect(testBoard.placeShip([0, 0], 'horizontal', 5)).toBe('Not valid placement');
 })
 
 
 it('Catches invalid move when ships overlap (perpendicular)', () => {
     let testBoard = gameboardFactory();
     testBoard.placeShip([0, 0], 'horizontal', 5);
-    expect(testBoard.placeShip([0, 0], 'vertical', 5)).toBe('Not valid move');
+    expect(testBoard.placeShip([0, 0], 'vertical', 5)).toBe('Not valid placement');
 })
 
 it('Sends newly created ship the correct coordinates for its location (horizontal)', () => {
@@ -236,6 +236,21 @@ it('Board tracks if ships are all sunk (yes)', () => {
     testBoard.receiveAttack([3,0]);
     testBoard.receiveAttack([4,0]);
     expect(testBoard.allSunk()).toBe(true);
+})
+
+it('Rejects attack if spot has already been attacked and hit', () => {
+    let testBoard = gameboardFactory();
+    testBoard.placeShip([0, 0], 'vertical', 1);
+    testBoard.placeShip([1, 0], 'vertical', 1);
+    testBoard.receiveAttack([1,0]);
+    expect(testBoard.receiveAttack([1,0])).toBe('Not valid attack');
+})
+
+it('Rejects attack if spot has already been attacked and missed', () => {
+    let testBoard = gameboardFactory();
+    testBoard.placeShip([0, 0], 'vertical', 1);
+    testBoard.receiveAttack([1,0]);
+    expect(testBoard.receiveAttack([1,0])).toBe('Not valid attack');
 })
 
 // [

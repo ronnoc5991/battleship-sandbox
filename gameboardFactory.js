@@ -36,7 +36,7 @@ const gameboardFactory = () => {
                 }
 
                 if (isOccupied === true) {
-                    return 'Not valid move';
+                    return 'Not valid placement';
                 } else { // green path
                     let newShip = shipFactory(shipSize) //create new ship from Factory
                     for (i = column; i < (column + shipSize); i++) { //loop through the different columns of this row
@@ -47,7 +47,7 @@ const gameboardFactory = () => {
                 }
 
             } else {
-                return 'Not valid move';
+                return 'Not valid placement';
             }
         }
 
@@ -62,7 +62,7 @@ const gameboardFactory = () => {
                 }
 
                 if (isOccupied === true) {
-                    return 'Not valid move';
+                    return 'Not valid placement';
                 } else { //green path
                     let newShip = shipFactory(shipSize);
                     for (i = row; i < (row + shipSize); i++) { //iterate through rows based on shipSize
@@ -73,7 +73,7 @@ const gameboardFactory = () => {
                 }
 
             } else {
-                return 'Not valid move';
+                return 'Not valid placement';
             }
         }
     };
@@ -81,13 +81,13 @@ const gameboardFactory = () => {
     const receiveAttack = (coordinates) => {
         let row = coordinates[0];
         let column = coordinates[1];
-        //if the attack spot !== '-'... block attack... is this done in DOM?
+        //if the attack spot !== '-' or numbers... block attack... is this done in DOM?
 
-        if (board[row][column] === '-') { //miss
+        if(board[row][column] === 'm' || board[row][column] === 'x') {
+            return 'Not valid attack'
+        } else if (board[row][column] === '-') { //miss
             board[row][column] = 'm' //mark this place on the board as a missed shot
-            //take into account spots on the board that are already shot at... maybe this is done in DOM
-        } else {
-            //hit
+        } else { //hit
             let index = board[row][column]; //get the index number of the ship in this boards ship array
             ships[index].hit(coordinates); //call that ships hit function with the coordinates
             board[row][column] = 'x' //mark this as a hit on the board
