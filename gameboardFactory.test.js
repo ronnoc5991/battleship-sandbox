@@ -85,6 +85,24 @@ it('placeShip function places a ship vertically', () => {
     ]);
 })
 
+it('placeShip function places 2 ships with the correct index Numbers on board', () => {
+    let testBoard = gameboardFactory();
+    testBoard.placeShip([4, 9], 'vertical', 5);
+    testBoard.placeShip([0, 0], 'vertical', 5);
+    expect(testBoard.board).toMatchObject([
+            [1, '-', '-', '-', '-', '-', '-', '-', '-', '-',],
+            [1, '-', '-', '-', '-', '-', '-', '-', '-', '-',],
+            [1, '-', '-', '-', '-', '-', '-', '-', '-', '-',],
+            [1, '-', '-', '-', '-', '-', '-', '-', '-', '-',],
+            [1, '-', '-', '-', '-', '-', '-', '-', '-', 0,],
+            ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
+            ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
+            ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
+            ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
+            ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-',]
+    ]);
+})
+
 it('Catches moves that do not fit on board (vertical)', () => {
     let testBoard = gameboardFactory();
     expect(testBoard.placeShip([9, 9], 'vertical', 5)).toBe('Not valid move');
@@ -138,6 +156,16 @@ it('Ship of length 5 is sunk after being attacked', () => {
     expect(testBoard.ships[0].isSunk()).toBe(true);
 })
 
+it('Ship of length 5 is not sunk after being attacked 4 times', () => {
+    let testBoard = gameboardFactory();
+    testBoard.placeShip([0, 0], 'vertical', 5);
+    testBoard.receiveAttack([0,0]);
+    testBoard.receiveAttack([1,0]);
+    testBoard.receiveAttack([2,0]);
+    testBoard.receiveAttack([3,0]);
+    expect(testBoard.ships[0].isSunk()).toBe(false);
+})
+
 it('Correct ship is sunk after 5 have been created', () => {
     let testBoard = gameboardFactory();
     testBoard.placeShip([0, 0], 'vertical', 1);
@@ -147,6 +175,17 @@ it('Correct ship is sunk after 5 have been created', () => {
     testBoard.placeShip([4, 0], 'vertical', 1);
     testBoard.receiveAttack([4,0]);
     expect(testBoard.ships[4].isSunk()).toBe(true);
+})
+
+it('Incorrect ship is not sunk after 5 have been created', () => {
+    let testBoard = gameboardFactory();
+    testBoard.placeShip([0, 0], 'vertical', 1);
+    testBoard.placeShip([1, 0], 'vertical', 1);
+    testBoard.placeShip([2, 0], 'vertical', 1);
+    testBoard.placeShip([3, 0], 'vertical', 1);
+    testBoard.placeShip([4, 0], 'vertical', 1);
+    testBoard.receiveAttack([4,0]);
+    expect(testBoard.ships[3].isSunk()).toBe(false);
 })
 
 it('Registers a miss on the board', () => {
@@ -181,7 +220,22 @@ it('Board tracks if ships are all sunk (yes)', () => {
     testBoard.placeShip([1, 0], 'vertical', 1);
     testBoard.receiveAttack([1,0]);
     testBoard.receiveAttack([0,0]);
-    expect(testBoard.ships.length).toBe(2);
+    expect(testBoard.allSunk()).toBe(true);
+})
+
+it('Board tracks if ships are all sunk (yes)', () => {
+    let testBoard = gameboardFactory();
+    testBoard.placeShip([0, 0], 'vertical', 1);
+    testBoard.placeShip([1, 0], 'vertical', 1);
+    testBoard.placeShip([2, 0], 'vertical', 1);
+    testBoard.placeShip([3, 0], 'vertical', 1);
+    testBoard.placeShip([4, 0], 'vertical', 1);
+    testBoard.receiveAttack([1,0]);
+    testBoard.receiveAttack([0,0]);
+    testBoard.receiveAttack([2,0]);
+    testBoard.receiveAttack([3,0]);
+    testBoard.receiveAttack([4,0]);
+    expect(testBoard.allSunk()).toBe(true);
 })
 
 // [

@@ -7,24 +7,19 @@ const gameboardFactory = () => {
 
     const allSunk = () => {
         let sinkCount = 0;
-        for (i=0; i<ships.length; i++) { //loop through ships
-            let dead = ships[i].isSunk(); //THIS IS WHERE THE PROBLEMS ARE... THIS IS NOT EVALUATING CORRECTLY
-            if (dead == true) {
-                return 'Hello';
-                sinkCount++;
-            }
-        }
 
-        return sinkCount;
+        ships.forEach((ship) => {
+            if(ship.isSunk()) {
+                sinkCount++
+            }
+        })
+
         if (sinkCount === ships.length) {
             return true
         } else {
             return false
         }
     }
-
-    //could the placeShip function give each ship an ID based on the number of ships in its ship array?  Would this help in identifying which ship is hit when an attack lands?
-    //placeship function should place index numbers on its board instead of 'x'... this way, when it is hit... the board can all the ship's hit method from it's ship array based on that index
 
     const placeShip = (coordinates, direction, shipSize) => {
         let row = coordinates[0];
